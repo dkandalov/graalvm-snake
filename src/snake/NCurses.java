@@ -9,6 +9,7 @@ import org.graalvm.nativeimage.c.type.CIntPointer;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @CContext(NCurses.Headers.class)
 @CLibrary("ncurses")
 public class NCurses {
@@ -23,6 +24,8 @@ public class NCurses {
     @CFunction public static native int curs_set(int visibility);
 
     @CFunction public static native void noecho();
+
+    @CFunction public static native void halfdelay(int tenths);
 
     @CFunction public static native int endwin();
 
