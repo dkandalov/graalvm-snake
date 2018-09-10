@@ -5,7 +5,6 @@ import org.graalvm.nativeimage.c.type.CTypeConversion.toCString
 import snake.Direction.*
 import snake.NCurses.*
 import java.util.*
-import kotlin.math.max
 
 
 fun main(args: Array<String>) {
@@ -68,7 +67,7 @@ data class Game(
 ) {
     val isOver =
         snake.tail.contains(snake.head) ||
-        snake.cells.any{ it.x < 0 || it.x >= width || it.y < 0 || it.y >= height}
+        snake.cells.any { it.x < 0 || it.x >= width || it.y < 0 || it.y >= height }
 
     val score = snake.cells.size
 
@@ -92,7 +91,7 @@ data class Snake(
         val newTail = if (eatenApples == 0) cells.dropLast(1) else cells
         return copy(
             cells = listOf(newHead) + newTail,
-            eatenApples = max(eatenApples - 1, 0)
+            eatenApples = maxOf(eatenApples - 1, 0)
         )
     }
 
@@ -113,7 +112,7 @@ data class Snake(
 data class Apples(
     val fieldWidth: Int,
     val fieldHeight: Int,
-    val cells: List<Cell> = emptyList(),
+    val cells: Set<Cell> = emptySet(),
     val growthSpeed: Int = 3,
     val random: Random = Random()
 ) {
@@ -124,9 +123,7 @@ data class Apples(
 }
 
 data class Cell(val x: Int, val y: Int) {
-    fun move(direction: Direction): Cell {
-        return Cell(x + direction.dx, y + direction.dy)
-    }
+    fun move(direction: Direction) = Cell(x + direction.dx, y + direction.dy)
 }
 
 enum class Direction(val dx: Int, val dy: Int) {
