@@ -1,8 +1,8 @@
 ### What is this?
 This is a minimal [snake game](https://en.wikipedia.org/wiki/Snake_(video_game_genre)) 
-with [ncurses UI](https://en.wikipedia.org/wiki/Ncurses) written in Kotlin 
-using [GraalVM](https://www.graalvm.org) for interop with C.
-This is re-implementation of [Kotlin/Native snake](https://github.com/dkandalov/kotlin-native-snake)
+with [ncurses](https://en.wikipedia.org/wiki/Ncurses) UI 
+written in Kotlin using [GraalVM](https://www.graalvm.org) for interop with C.
+It re-implements [Kotlin/Native snake](https://github.com/dkandalov/kotlin-native-snake)
 to be able to compare Kotlin/Native and GraalVM C interop. 
 
 ### How to use?
