@@ -23,12 +23,12 @@ fun main(args: Array<String>) {
     )
     val window = newwin(game.height + 2, game.width + 2, 0, 0)
 
-    var c = 0
-    while (c.toChar() != 'q') {
+    var input = 0
+    while (input.toChar() != 'q') {
         game.draw(window)
 
-        c = wgetch(window)
-        val direction = when (c.toChar()) {
+        input = wgetch(window)
+        val direction = when (input.toChar()) {
             'i' -> up
             'j' -> left
             'k' -> down
@@ -52,7 +52,7 @@ fun Game.draw(window: CIntPointer?) {
     toCString("Q").use { char -> snake.head.let { mvwprintw(window, it.y + 1, it.x + 1, char.get()) } }
 
     if (isOver) {
-        toCString("Game is Over").use { mvwprintw(window, 0, 4, it.get()) }
+        toCString("Game Over").use { mvwprintw(window, 0, 6, it.get()) }
         toCString("Your score is $score").use { mvwprintw(window, 1, 3, it.get()) }
     }
 
@@ -67,7 +67,9 @@ data class Game(
 ) {
     val isOver =
         snake.tail.contains(snake.head) ||
-        snake.cells.any { it.x < 0 || it.x >= width || it.y < 0 || it.y >= height }
+        snake.cells.any {
+            it.x < 0 || it.x >= width || it.y < 0 || it.y >= height
+        }
 
     val score = snake.cells.size
 
@@ -95,18 +97,16 @@ data class Snake(
         )
     }
 
-    fun turn(newDirection: Direction?): Snake {
-        if (newDirection == null || newDirection.oppositeTo(direction)) return this
-        return copy(direction = newDirection)
-    }
+    fun turn(newDirection: Direction?): Snake =
+        if (newDirection == null || newDirection.oppositeTo(direction)) this
+        else copy(direction = newDirection)
 
-    fun eat(apples: Apples): Pair<Snake, Apples> {
-        if (!apples.cells.contains(head)) return Pair(this, apples)
-        return Pair(
+    fun eat(apples: Apples): Pair<Snake, Apples> =
+        if (!apples.cells.contains(head)) Pair(this, apples)
+        else Pair(
             copy(eatenApples = eatenApples + 1),
             apples.copy(cells = apples.cells - head)
         )
-    }
 }
 
 data class Apples(
@@ -116,10 +116,9 @@ data class Apples(
     val growthSpeed: Int = 3,
     val random: Random = Random()
 ) {
-    fun grow(): Apples {
-        if (random.nextInt(growthSpeed) != 0) return this
-        return copy(cells = cells + Cell(random.nextInt(fieldWidth), random.nextInt(fieldHeight)))
-    }
+    fun grow(): Apples =
+        if (random.nextInt(growthSpeed) != 0) this
+        else copy(cells = cells + Cell(random.nextInt(fieldWidth), random.nextInt(fieldHeight)))
 }
 
 data class Cell(val x: Int, val y: Int) {
