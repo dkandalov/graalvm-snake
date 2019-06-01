@@ -7,6 +7,7 @@ to be able to compare Kotlin/Native and GraalVM C interop.
 
 ### How to use?
  - [download](https://github.com/oracle/graal/releases) and unpack GraalVM
+ - starting from graal version `vm-19.0.0` native-image has to be installed manually `./gu install native-image`
  - in the `makefile` update:
     - `graal-native-image` to specify path to `native-image` in GraalVM directory
     - `kotlin-jars-classpath` to specify path to Kotlin jars

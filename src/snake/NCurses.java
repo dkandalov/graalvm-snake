@@ -13,9 +13,9 @@ import java.util.List;
 @CContext(NCurses.Headers.class)
 @CLibrary("ncurses")
 public class NCurses {
-    class Headers implements CContext.Directives {
+    static class Headers implements CContext.Directives {
         @Override public List<String> getHeaderFiles() {
-            return Collections.singletonList("/usr/include/ncurses.h");
+            return Collections.singletonList("\"/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ncurses.h\"");
         }
     }
     @CFunction public static native void initscr();

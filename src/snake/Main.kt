@@ -7,7 +7,7 @@ import snake.NCurses.*
 import java.util.*
 
 
-fun main(args: Array<String>) {
+fun main() {
     initscr()
     curs_set(0)
     noecho()
@@ -29,10 +29,10 @@ fun main(args: Array<String>) {
 
         input = wgetch(window)
         val direction = when (input.toChar()) {
-            'i' -> up
-            'j' -> left
-            'k' -> down
-            'l' -> right
+            'i'  -> up
+            'j'  -> left
+            'k'  -> down
+            'l'  -> right
             else -> null
         }
 
@@ -66,10 +66,10 @@ data class Game(
     val apples: Apples = Apples(width, height)
 ) {
     val isOver =
-        snake.tail.contains(snake.head) ||
-        snake.cells.any {
-            it.x < 0 || it.x >= width || it.y < 0 || it.y >= height
-        }
+        snake.head in snake.tail ||
+            snake.cells.any {
+                it.x !in 0.until(width) || it.y !in 0.until(height)
+            }
 
     val score = snake.cells.size
 
@@ -102,7 +102,7 @@ data class Snake(
         else copy(direction = newDirection)
 
     fun eat(apples: Apples): Pair<Snake, Apples> =
-        if (!apples.cells.contains(head)) Pair(this, apples)
+        if (head !in apples.cells) Pair(this, apples)
         else Pair(
             copy(eatenApples = eatenApples + 1),
             apples.copy(cells = apples.cells - head)
@@ -126,7 +126,10 @@ data class Cell(val x: Int, val y: Int) {
 }
 
 enum class Direction(val dx: Int, val dy: Int) {
-    up(0, -1), down(0, 1), left(-1, 0), right(1, 0);
+    up(0, -1),
+    down(0, 1),
+    left(-1, 0),
+    right(1, 0);
 
-    fun oppositeTo(that: Direction) = dx + that.dx == 0 && dy + that.dy == 0
+    fun oppositeTo(that: Direction) = dx + that.dx == 0 || dy + that.dy == 0
 }
