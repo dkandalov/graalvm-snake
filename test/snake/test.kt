@@ -31,10 +31,10 @@ class SnakeTests {
     }
 
     @Test fun `snake eats an apple`() {
-        val apples = Apples(20, 10, cells = listOf(Cell(2, 0)))
+        val apples = Apples(20, 10, cells = setOf(Cell(2, 0)))
         val (newSnake, newApples) = snake.eat(apples)
 
-        assertThat(newApples.cells, equalTo(emptyList()))
+        assertThat(newApples.cells, equalTo(emptySet()))
         assertThat(newSnake.eatenApples, equalTo(1))
         assertThat(newSnake.move().cells, equalTo(listOf(Cell(3, 0), Cell(2, 0), Cell(1, 0), Cell(0, 0))))
     }
@@ -45,7 +45,7 @@ class ApplesTests {
         val apples = Apples(20, 10, random = Random(42))
         assertThat(
             apples.grow().grow().grow().cells,
-            equalTo(listOf(Cell(x = 8, y = 4), Cell(x = 5, y = 5)))
+            equalTo(setOf(Cell(x = 3, y = 8), Cell(x = 5, y = 5)))
         )
     }
 }
